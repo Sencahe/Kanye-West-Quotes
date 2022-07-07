@@ -29,6 +29,8 @@ Name: `<your name>` <br/>
 Email: `<your email>`<br/>
 
 ## Instructions (Docker required)
+### DO NOT START A NEW LARAVEL APP, USE THIS BOILERPLATE INSTEAD
+
 ### Cloning the repository
 1. Create a bare clone of the repository. (This is temporary and will be removed so just do it wherever.)
     ```bash
