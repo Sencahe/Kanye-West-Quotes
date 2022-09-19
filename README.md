@@ -79,7 +79,7 @@ Email: `<your email>`<br/>
    
 4. Generate a new secret key:
     ```shell
-    ./vendor/bin/sail key:generate
+    ./vendor/bin/sail artisan key:generate
     ```
    
 5. (IMPORTANT) Edit the README.md file and add your name and email.
