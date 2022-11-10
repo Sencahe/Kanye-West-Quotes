@@ -18,8 +18,9 @@ The API we want you to connect to is https://kanye.rest/
 * Frontend should be done with Vue.js and optionally Inertia.js
 * An API route should be available to fetch a specified number of quotes random Kayne West quotes
 * An API route should be available to fetch your favorites quotes
-* The API route should be secured with a token
-* Above features are tested with Feature tests
+* An API route should be available to delete a quote from your favorites
+* All API route should be secured with a token
+* Above features are to be tested with Feature tests
 
 Imagine this app is going to be submitted to Kanye himself, so you implement a new extra feature to really impress him with your creativity and coding skills.
 What would that new killer feature be? Please implement it in the app.
