@@ -26,8 +26,8 @@ Imagine this app is going to be submitted to Kanye himself, so you implement a n
 What would that new killer feature be? Please implement it in the app.
 
 ## Developer
-Name: `<your name>` <br/>
-Email: `<your email>`<br/>
+Name: `Francisco Cahe` <br/>
+Email: `franciscocahe@gmail.com`<br/>
 
 ## Instructions (Docker required)
 ### DO NOT START A NEW LARAVEL APP, USE THIS BOILERPLATE INSTEAD !!
