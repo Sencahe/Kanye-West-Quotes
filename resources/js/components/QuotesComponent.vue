@@ -1,9 +1,10 @@
 <template>
-    <div class="my-2 my-md-5 d-flex flex-column justify-content-center align-items-center overflow-hidden">
+    <div class="min-vh-100 py-2 py-md-5 d-flex flex-column justify-content-center align-items-center overflow-hidden bg-content">
 
-        <h1 class="text-center text-white mb-5 overflow-hidden">Kanye West Quotes App!!</h1>
+        <h1 class="text-center text-white">Kanye West Quotes App!!</h1>
+        <h3 class="text-center text-white mb-5">Hi {{user.name}} {{user.last_name}}</h3>
 
-        <div v-if="!loginOut" class="col-11 col-md-11 col-lg-6 border py-3 px-2 px-md-3 p-lg-4  rounded">
+        <div v-if="!loginOut" class="col-11 col-md-11 col-lg-6 border rounded py-3 px-2 px-md-3 p-lg-4  ">
             <RouterView v-slot="{ Component }">
                 <KeepAlive>
                     <component :is="Component" :key="$route.fullPath"></component>
@@ -29,8 +30,12 @@ export default {
     name: "QuotesController",
     data() {
         return {
-            loginOut: false
+            loginOut: false,
+            user: {}
         }
+    },
+    mounted(){
+        this.user = JSON.parse(localStorage.getItem('user'));
     },
     methods:{
         logout(){
@@ -46,3 +51,24 @@ export default {
     }
 }
 </script>
+
+<style>
+.bg-content{
+    background-size: 100% 100%;
+    background: url('/storage/images/wallpaper-main-lg.jpg') no-repeat center center fixed;
+    background-color: black;
+}
+
+@media (max-width: 990px) {
+    .bg-content{
+        background: url('/storage/images/wallpaper-main-md.jpg') no-repeat center center fixed;
+    }
+}
+
+@media (max-width: 420px) {
+    .bg-content{
+        background: url('/storage/images/wallpaper-main-sm.jpg') no-repeat center center fixed;
+    }
+}
+
+</style>

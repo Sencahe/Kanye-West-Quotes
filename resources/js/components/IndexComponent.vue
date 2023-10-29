@@ -2,7 +2,9 @@
 
     <div class="bg-container d-flex flex-column" :class="{'fade-in': showImage}">
         <div class="d-flex flex-grow-1 flex-column justify-content-lg-center mt-5 mt-lg-0">
-            <LoginComponent></LoginComponent>
+            <div class="mx-1 mx-md-5 px-2 px-md-5  d-flex justify-content-center justify-content-lg-start">
+                <RouterView></RouterView>
+            </div>
         </div>
     </div>
 
@@ -23,7 +25,7 @@ import LoginComponent from './LoginComponent.vue';
     },
     mounted() {
         setTimeout(() => {
-          this.showImage = true; // Show the image with the fade-in effect after 2 seconds
+          this.showImage = true;
         },10);
     }
     }
@@ -48,23 +50,17 @@ import LoginComponent from './LoginComponent.vue';
       opacity: 0;
       z-index: -1;
     }
-    .fade-in::before {
-      opacity: 1;
-    }
-
     @media (max-width: 990px) {
         .bg-container::before{
             background: url('/storage/images/wallpaper-md.jpg') no-repeat center center fixed;
         }
-
     }
-
     @media (max-width: 420px) {
         .bg-container::before{
             background: url('/storage/images/wallpaper-sm.jpg') no-repeat center center fixed;
         }
-
     }
-
-
+    .fade-in::before {
+      opacity: 1;
+    }
 </style>

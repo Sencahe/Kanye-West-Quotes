@@ -31,7 +31,7 @@ class QuoteController extends Controller
     public function randomQuotes(Int $amount){
         $quotes = [];
         $client = new Client();
-        //sleep(3);
+       // sleep(3);
         //return response("",404);
 
         while(count($quotes) < $amount){

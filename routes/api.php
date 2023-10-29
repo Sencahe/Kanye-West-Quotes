@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,5 +26,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get("/quotes", [QuoteController::class,"index"]);
     Route::get("/random_quotes/{amount}", [QuoteController::class,"randomQuotes"]);
+    Route::delete("/quotes/{quote}", [QuoteController::class,"destroy"]);
 
 });

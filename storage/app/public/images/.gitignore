@@ -1,3 +1,5 @@
 *
 !wallpaper-*.jpg
+!load*.gif
+!error*.png
 !.gitignore

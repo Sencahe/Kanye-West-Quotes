@@ -28,7 +28,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(),422);
         }
 
         //Attempt to create the user
@@ -75,7 +75,7 @@ class AuthController extends Controller
 
                 $token = $user->createToken("auth_token")->plainTextToken;
                 return response()->json([
-                    "message" => "You have successfully loged in",
+                    "message" => "You have successfully generated access token!",
                     "access_token" => $token,
                     "token_type" => "Bearer",
                     "user" => $user

@@ -1,9 +1,10 @@
 <template>
-    <div class="mx-1 mx-md-5 px-2 px-md-5  d-flex justify-content-center justify-content-lg-start">
-        <div class="form-control text-start m-0" style="max-width: 450px">
+    
+        <div class="form-control border text-start m-0" style="max-width: 450px">
             <h1 class="h3 text-center">Kanye West Quotes!</h1>
             <form class="d-flex flex-column">
-                <p v-if="loginAttemptFailed != ''" class="text-danger">{{ loginAttemptFailed }}</p>
+
+                <p v-if="loginAttemptFailed != ''" class="text-danger pt-2">{{ loginAttemptFailed }}</p>
 
                 <label for="email" class="py-2">Email</label>
                 <input type="email" email="email" v-model="user.email">
@@ -11,11 +12,17 @@
                 <label for="password" class="py-2">Password</label>
                 <input type="password" name="password" v-model="user.password">
 
-                <button @click.prevent="login()" class="mt-4 btn btn-primary w-25" >Login</button>
+                <div class="d-flex align-items-center justify-content-between">
+                    <button @click.prevent="login()" class="mt-4 mb-2 btn btn-success w-25" >Register</button>
+                    <div class="pt-3 ps-3 d-flex flex-column">
+                        <p class="text-success text-center m-0 ">You don't have an account? </p>
+                        <RouterLink to="/register" class="text-success text-center">Register here!</RouterLink>
+                    </div> 
+                </div>
             </form>
 
         </div>
-    </div>
+
 </template>
 
 

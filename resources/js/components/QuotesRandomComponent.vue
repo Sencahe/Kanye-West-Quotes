@@ -11,7 +11,7 @@
         <Transition name="fade">
             <div v-if="hasFetchError" class="d-flex flex-column align-items-center justify-content-center pt-4">
                 <img src="/storage/images/error-sad-kanye.png" alt="">
-                <div class="ms-3 h5 text-white d-flex flex-column justify-content-center align-items-center text-center">
+                <div class="ms-3 h5 text-danger d-flex flex-column justify-content-center align-items-center text-center">
                     <p>Oops, there has been a problem trying to generate the Quotes :(</p>
                     <p>Please, try again later</p>
                 </div>
@@ -25,7 +25,7 @@
 
                     <p class="m-0 p-0">{{ quoteObj.quote }}</p>
                     <div class="d-flex flex-column justify-content-center">
-                        <i @click.prevent="handleQuoteInFavorite(quoteObj.quote, quoteIsInFavorites(quoteObj.quote))" class="fa-solid fa-star ms-3" :class="{ 'text-gold': quoteIsInFavorites(quoteObj.quote) }" ></i>
+                        <i @click.prevent="handleQuoteInFavorite(quoteObj.quote, findQuoteIdInFavorites(quoteObj.quote))" class="fa-solid fa-star ms-3" :class="{ 'text-gold': findQuoteIdInFavorites(quoteObj.quote) }" ></i>
                     </div>
 
                 </li>
@@ -40,7 +40,7 @@
         </Transition>
 
         <div class="my-5">
-            <button v-if="!isLoading" @click.prevent="getRandomQuotes" class="btn btn-light">Generate Quotes!</button>
+            <button v-if="!isLoading" @click.prevent="getRandomQuotes" class="btn btn-success">Generate Quotes!</button>
         </div>
 
     </div>
@@ -62,6 +62,11 @@ export default {
             hasFetchError: false,
         }
     },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.fetchFavoritesQuotes();;
+        });
+    },
     mounted() {
         this.user = JSON.parse(localStorage.getItem('user'));
         this.getRandomQuotes();
@@ -76,20 +81,10 @@ export default {
                     //
                 });
         },
-        getRandomQuotes() {
-            this.fetchFavoritesQuotes();
-            this.isLoaded = false;
-            this.hasFetchError = false;
-            setTimeout(() => {
-                this.isLoading = true;
-                this.fetchRandomQuotes();
-            }, "500");
-        },
         fetchRandomQuotes() {
             this.randomQuotes = [];
             axios.get("/request/random_quotes/5")
                 .then(response => {
-
                     this.randomQuotes = response.data.quotes;
                     setTimeout(() => {
                         this.isLoaded = true;
@@ -105,6 +100,15 @@ export default {
 
                 });
         },
+        getRandomQuotes() {
+            this.fetchFavoritesQuotes();
+            this.isLoaded = false;
+            this.hasFetchError = false;
+            setTimeout(() => {
+                this.isLoading = true;
+                this.fetchRandomQuotes();
+            }, "500");        
+        },
         handleQuoteInFavorite(quote, quoteId) {
             const isQuoteInFavorites = quoteId != null;
             const axiosConfig = {
@@ -118,6 +122,7 @@ export default {
             axios(axiosConfig)
                 .then(response => {
                     if (isQuoteInFavorites) {
+                        // if is in favorites, then we have to remove it
                         this.favoriteQuotes = this.favoriteQuotes.filter(obj => obj.id !== response.data.id);
                     } else {
                         this.favoriteQuotes.push(response.data)
@@ -126,9 +131,9 @@ export default {
                     //
                 });
         },
-        quoteIsInFavorites(quote) {
+        findQuoteIdInFavorites(quote) {
             const favoriteQuote = this.favoriteQuotes.find(obj => obj.quote === quote);
-            return favoriteQuote != undefined ? favoriteQuote.id : null;
+            return (favoriteQuote != undefined) ? favoriteQuote.id : null;
         }
     }
 }
