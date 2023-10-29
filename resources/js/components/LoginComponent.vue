@@ -1,0 +1,71 @@
+<template>
+    <div class="mx-1 mx-md-5 px-2 px-md-5  d-flex justify-content-center justify-content-lg-start">
+        <div class="form-control text-start m-0" style="max-width: 450px">
+            <h1 class="h3 text-center">Kanye West Quotes!</h1>
+            <form class="d-flex flex-column">
+                <p v-if="loginAttemptFailed != ''" class="text-danger">{{ loginAttemptFailed }}</p>
+
+                <label for="email" class="py-2">Email</label>
+                <input type="email" email="email" v-model="user.email">
+
+                <label for="password" class="py-2">Password</label>
+                <input type="password" name="password" v-model="user.password">
+
+                <button @click.prevent="login()" class="mt-4 btn btn-primary w-25" >Login</button>
+            </form>
+
+        </div>
+    </div>
+</template>
+
+
+<script>
+import Axios from "axios"
+
+export default {
+    name: "LoginComponent",
+    data() {
+        return {
+            user: {
+                email: "",
+                password: ""
+            },
+            loginAttemptFailed: "",
+        }
+    },
+    methods: {
+        login() {
+            if (this.user.email === "" || this.user.password === "") {
+                this.loginAttemptFailed = "Email and/or Password must be filled"
+                return;
+            } else {
+                this.loginAttemptFailed = "";
+            }
+
+            Axios.post('/auth', {
+                email: this.user.email,
+                password: this.user.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                this.$router.push("/quotes");
+            })
+            .catch(error => {
+                if(error.response.status == 401){
+                    this.loginAttemptFailed = "Username and/or Password are incorrect";
+                } else {
+                    this.loginAttemptFailed = "There has been an error. Please, try again later";
+                }
+
+            });
+        }
+    }
+
+}
+</script>
