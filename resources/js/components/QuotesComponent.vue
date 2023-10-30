@@ -13,7 +13,7 @@
         </div>
 
         <div v-else>
-            <p class="h3 text-light">Loging out...</p>
+            <p class="h3 text-white">Loging out...</p>
         </div>
 
         <div  v-if="!loginOut" class="mt-2">

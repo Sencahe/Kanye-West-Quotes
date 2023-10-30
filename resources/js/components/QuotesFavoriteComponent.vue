@@ -17,9 +17,13 @@
 
             </li>
         </ul>
-        <div v-if="favoriteQuotes.length == 0">
+        <div v-if="favoriteQuotes.length == 0 && !hasFetchError && !isLoading">
             <p class="text-center text-white h5">You don't have any quotes saved in your favorites</p>
         </div>
+        
+        <FetchErrorComponent v-if="hasFetchError && !isLoading" :action="'get your favorite quotes'" ></FetchErrorComponent>
+
+        <LoadingComponent v-show="isLoading"></LoadingComponent >
 
     </div>
 
@@ -27,18 +31,32 @@
 
 <script>
 import axios from 'axios';
+import FetchErrorComponent from './FetchErrorComponent.vue';
+import LoadingComponent from './LoadingComponent.vue';
 
 export default {
     name: "FavoriteQuotesComponent",
+    components: {
+        FetchErrorComponent,
+        LoadingComponent
+    },
     data() {
         return {
-            favoriteQuotes: []
+            favoriteQuotes: [],
+            hasFetchError: false,
+            isLoading: false,
+            isMounted: false,
         }
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            vm.fetchFavoritesQuotes();;
+            if (vm.isMounted) {
+                vm.getFavoriteQuotes();
+            }
         });
+    },
+    mounted() {
+        this.getFavoriteQuotes();
     },
     methods: {
         fetchFavoritesQuotes() {
@@ -46,15 +64,30 @@ export default {
                 .then(response => {
                     this.favoriteQuotes = response.data;
                 }).catch(error => {
-                    //
+                    this.hasFetchError = true;
+                }).finally(response => {
+                    this.isLoading = false;
+                    this.isMounted = true;
                 });
+        },
+        getFavoriteQuotes() {
+            this.isLoading = true;
+            this.hasFetchError = false;
+            this.favoriteQuotes = [];
+            setTimeout(() => {
+                this.fetchFavoritesQuotes();
+            }, "500");
         },
         removeFromFavorites(quoteId) {
             axios.delete("/request/quote/" + quoteId)
                 .then(response => {
                     this.favoriteQuotes = this.favoriteQuotes.filter(obj => obj.id !== response.data.id);
                 }).catch(error => {
-                    //
+                    this.$swal({
+                        icon: 'error',
+                        title: "There has been a problem trying to remove the quote from your favorites.",
+                        text: "Please, try again later."
+                    })
                 })
         }
     }

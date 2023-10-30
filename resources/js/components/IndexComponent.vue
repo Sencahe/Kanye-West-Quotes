@@ -52,12 +52,12 @@ import LoginComponent from './LoginComponent.vue';
     }
     @media (max-width: 990px) {
         .bg-container::before{
-            background: url('/storage/images/wallpaper-md.jpg') no-repeat center center fixed;
+            background: url('/storage/images/wallpaper-main-md.jpg') no-repeat center center fixed;
         }
     }
     @media (max-width: 420px) {
         .bg-container::before{
-            background: url('/storage/images/wallpaper-sm.jpg') no-repeat center center fixed;
+            background: url('/storage/images/wallpaper-main-sm.jpg') no-repeat center center fixed;
         }
     }
     .fade-in::before {

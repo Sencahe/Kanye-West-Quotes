@@ -13,7 +13,7 @@
                 <input type="password" name="password" v-model="user.password">
 
                 <div class="d-flex align-items-center justify-content-between">
-                    <button @click.prevent="login()" class="mt-4 mb-2 btn btn-success w-25" >Register</button>
+                    <button @click.prevent="login()" class="mt-4 mb-2 btn btn-success w-25" >Login</button>
                     <div class="pt-3 ps-3 d-flex flex-column">
                         <p class="text-success text-center m-0 ">You don't have an account? </p>
                         <RouterLink to="/register" class="text-success text-center">Register here!</RouterLink>

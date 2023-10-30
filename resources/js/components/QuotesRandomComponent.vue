@@ -8,19 +8,9 @@
             </div>
 
         </div>
-        <Transition name="fade">
-            <div v-if="hasFetchError" class="d-flex flex-column align-items-center justify-content-center pt-4">
-                <img src="/storage/images/error-sad-kanye.png" alt="">
-                <div class="ms-3 h5 text-danger d-flex flex-column justify-content-center align-items-center text-center">
-                    <p>Oops, there has been a problem trying to generate the Quotes :(</p>
-                    <p>Please, try again later</p>
-                </div>
-
-            </div>
-        </Transition>
 
         <Transition name="fade">
-            <ul v-if="isLoaded" class="list-group ">
+            <ul v-if="isLoaded" class="list-group w-100">
                 <li v-for="quoteObj in randomQuotes" key="quote" class="list-group-item list-group-item-action d-flex justify-content-between" >
 
                     <p class="m-0 p-0">{{ quoteObj.quote }}</p>
@@ -33,13 +23,14 @@
         </Transition>
 
         <Transition name="fade">
-            <div v-if="isLoading">
-                <img  src="/storage/images/loading.gif" alt="GIF" height="">
-                <p class="text-center text-white h5">Loading Quotes...</p>
-            </div>
+            <FetchErrorComponent :action="'generate the random quotes'" v-if="hasFetchError"></FetchErrorComponent>
         </Transition>
 
-        <div class="my-5">
+        <Transition name="fade">
+            <LoadingComponent  v-show="isLoading"></LoadingComponent>
+        </Transition>
+
+        <div class="mt-5">
             <button v-if="!isLoading" @click.prevent="getRandomQuotes" class="btn btn-success">Generate Quotes!</button>
         </div>
 
@@ -49,9 +40,15 @@
 
 <script>
 import axios from 'axios';
+import LoadingComponent from './LoadingComponent.vue';
+import FetchErrorComponent from './FetchErrorComponent.vue';
 
 export default {
     name: "RandomQuotesComponent",
+    components:{
+        LoadingComponent,
+        FetchErrorComponent
+    },
     data() {
         return {
             user: {},
@@ -60,17 +57,19 @@ export default {
             isLoading: false,
             isLoaded: false,
             hasFetchError: false,
+            isMounted: false
         }
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
-            vm.fetchFavoritesQuotes();;
+            if(vm.isMounted){
+                vm.getFavoriteQuotes();
+            }
         });
     },
     mounted() {
         this.user = JSON.parse(localStorage.getItem('user'));
         this.getRandomQuotes();
-
     },
     methods: {
         fetchFavoritesQuotes() {
@@ -78,6 +77,8 @@ export default {
                 .then(response => {
                     this.favoriteQuotes = response.data;
                 }).catch(error => {
+                    //
+                }).finally(response =>{
                     //
                 });
         },
@@ -97,17 +98,22 @@ export default {
 
                 }).finally(response => {
                     this.isLoading = false;
-
+                    this.isMounted = true;                 
                 });
         },
         getRandomQuotes() {
-            this.fetchFavoritesQuotes();
             this.isLoaded = false;
             this.hasFetchError = false;
             setTimeout(() => {
                 this.isLoading = true;
+                this.fetchFavoritesQuotes();
                 this.fetchRandomQuotes();
             }, "500");        
+        },
+        getFavoriteQuotes(){
+            setTimeout(() => {
+                this.fetchFavoritesQuotes();
+            }, "500");    
         },
         handleQuoteInFavorite(quote, quoteId) {
             const isQuoteInFavorites = quoteId != null;
@@ -128,7 +134,11 @@ export default {
                         this.favoriteQuotes.push(response.data)
                     }
                 }).catch(error => {
-                    //
+                    this.$swal({
+                        icon: 'error',
+                        title: `There has been a problem trying to ${isQuoteInFavorites ? 'remove':'add'} the quote in favorites.`,
+                        text: "Please, try again later"
+                    })
                 });
         },
         findQuoteIdInFavorites(quote) {

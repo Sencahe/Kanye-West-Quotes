@@ -17,38 +17,37 @@ class QuoteController extends Controller
      */
     public function index(Request $request)
     {
-       // return $request->user()->id;
+
         try {
-            $quotes = Quote::where("user_id",$request->user()->id)->get();
-            return response()->json($quotes,200);
+            $quotes = Quote::where("user_id", $request->user()->id)->get();
+            return response()->json($quotes, 200);
 
         } catch (\Exception $e) {
-            return response()->json($e->getMessage(),500);
+            return response()->json($e->getMessage(), 500);
         }
 
     }
 
-    public function randomQuotes(Int $amount){
+    public function randomQuotes(int $amount)
+    {
         $quotes = [];
         $client = new Client();
-       // sleep(3);
-        //return response("",404);
 
-        while(count($quotes) < $amount){
+        while (count($quotes) < $amount) {
 
             $response = $client->request('GET', 'https://api.kanye.rest/');
             $statusCode = $response->getStatusCode();
-            if($statusCode != 200){
-                return response()->json(["message"=>"There has been an unexpected error generating the quotes."],$statusCode);
+            if ($statusCode != 200) {
+                return response()->json(["message" => "There has been an unexpected error generating the quotes."], $statusCode);
             }
 
             $quote = json_decode($response->getBody());
             if (in_array($quote, $quotes) == False) {
-                array_push($quotes , $quote);
+                array_push($quotes, $quote);
             }
         }
 
-        return response()->json( ["amount"=> $amount, "quotes" => $quotes], 200);
+        return response()->json(["amount" => $amount, "quotes" => $quotes], 200);
     }
 
     /**
@@ -124,7 +123,8 @@ class QuoteController extends Controller
     {
         try {
             $quote->delete();
-            return  response()->json($quote, 200);;
+            return response()->json($quote, 200);
+            ;
         } catch (\Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
