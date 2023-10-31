@@ -148,7 +148,7 @@ From there you can check where you want to place your project...
 
 1. Git clone this repository:
 ```shell
-git clone https://github.com/Sencahe/Company-Managment.git
+git clone https://github.com/Sencahe/Kanye-West-Quotes.git
 ```
 
 2. Move into the project's folder in the same path you did the clone of the repo:
