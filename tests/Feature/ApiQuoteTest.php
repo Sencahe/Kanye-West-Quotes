@@ -89,6 +89,25 @@ class ApiQuoteTest extends TestCase
         $response->assertStatus(401);
     }
 
+    public function test_delete_quote_not_owned()
+    {
+        $userPrimary = User::factory(1)->create()->first();
+        $userSecondary = User::factory(1)->create()->first();
+
+        Sanctum::actingAs($userPrimary, ['*']);
+
+        $quote = Quote::factory()->create([
+            "user_id" => $userSecondary->id,
+        ]);
+
+        $response = $this->json('delete', 'api/quote/' . $quote->id);
+
+        $response->assertStatus(403);
+        $response->assertJsonFragment([
+            'message' => "You can't remove a Quote from someone else."
+        ]);
+    }
+
     public function test_get_favorite_quotes()
     {
         $user = User::factory()->create();

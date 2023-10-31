@@ -194,20 +194,29 @@ Go to line 6, column 18 to modify the node version to 18 or higher
 ./vendor/bin/sail artisan db:seed --class=DatabaseSeeder
 ```
 
-9. install Node dependencies and run Frontend:
+9. install Laravel new dependencies:
+```shell
+./vendor/bin/sail composer install
+```
+
+10. install Node dependencies and run Frontend:
 ```shell
 ./vendor/bin/sail npm install
 ./vendor/bin/sail npm run dev
 ```
 
-10. Check the website at localhost:80 in your browser, login with:
+11. Check the website at localhost:80 in your browser, login with:
 <br/>
 <br/>email: test@test.com
 <br/>password: password
 <br/>
 <br/>You can also register your own account!
 
-11. You can also run tests:
+12. You can also run tests:
 ```shell
 ./vendor/bin/sail artisan test
 ```
+
+13. Check swagger API docs:
+<br/>
+http://localhost:80/api/documentation
