@@ -206,11 +206,9 @@ Go to line 6, column 18 to modify the node version to 18 or higher
 ```
 
 11. Check the website at localhost:80 in your browser, login with:
-<br/>
-email: test@test.com
+<br/>email: test@test.com
 <br/>password: password
-<br/>
-You can also register your own account!
+<br/>You can also register your own account!
 
 12. You can also run tests:
 ```shell
@@ -218,5 +216,4 @@ You can also register your own account!
 ```
 
 13. Check swagger API docs:
-<br/>
-http://localhost:80/api/documentation
+<br/>http://localhost:80/api/documentation
