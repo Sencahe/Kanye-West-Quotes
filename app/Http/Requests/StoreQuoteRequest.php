@@ -24,7 +24,8 @@ class StoreQuoteRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'quote' => 'required|unique:quotes',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }

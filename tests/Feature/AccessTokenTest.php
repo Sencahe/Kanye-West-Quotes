@@ -38,4 +38,22 @@ class AccessTokenTest extends TestCase
 
         ]);
     }
+
+    public function test_get_access_token_fail()
+    {
+        $user = User::factory()->create([
+            'email' => 'test@test.com',
+            'name' => 'Test',
+            'last_name' => 'User',
+            'password' => bcrypt('password'), 
+        ]);
+
+        $response = $this->post('/api/auth/token', [ 
+            'email' => 'test@test.com',
+            'password' => 'wrong_password'
+        ]);
+        
+        $response->assertStatus(401);
+    
+    }
 }

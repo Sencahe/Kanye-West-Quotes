@@ -26,6 +26,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get("/quotes", [QuoteController::class,"index"]);
     Route::get("/random_quotes/{amount}", [QuoteController::class,"randomQuotes"]);
-    Route::delete("/quotes/{quote}", [QuoteController::class,"destroy"]);
+    Route::delete("/quote/{quote}", [QuoteController::class,"destroy"]);
 
 });
