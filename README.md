@@ -207,10 +207,10 @@ Go to line 6, column 18 to modify the node version to 18 or higher
 
 11. Check the website at localhost:80 in your browser, login with:
 <br/>
-<br/>email: test@test.com
+email: test@test.com
 <br/>password: password
 <br/>
-<br/>You can also register your own account!
+You can also register your own account!
 
 12. You can also run tests:
 ```shell
