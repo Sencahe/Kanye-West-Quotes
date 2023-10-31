@@ -153,7 +153,7 @@ git clone https://github.com/Sencahe/Kanye-West-Quotes.git
 
 2. Move into the project's folder in the same path you did the clone of the repo:
 ```shell
-cd Company-Managment/
+cd Kanye-West-Quotes/
 ```
 
 3. Create a copy of the `.env.example` file as `.env`:
